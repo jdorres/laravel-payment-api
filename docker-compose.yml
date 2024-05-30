@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  php:
+    container_name: payment-api
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    ports:
+      - "10080:80"
+    tty: true
+    environment:
+      TERM: xterm
+    volumes:
+      - ./:/opt/laravel-payment-api
+    command: php artisan serve --host=0.0.0.0 --port=80
+  mysql:
+    container_name: laravel-api-mysql
+    build:
+      context: .
+      dockerfile: docker/mysql/Dockerfile
+    expose:
+      - "3306"
+    ports:
+      - "43308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=payment_api
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    volumes:
+      - ./volume/mysql:/var/lib/mysql
+      - ./volume/data:/var/data
