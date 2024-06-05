@@ -28,7 +28,7 @@ services:
     container_name: payment-api-nginx
     restart: unless-stopped
     ports:
-      - 8000:80
+     - "10081:80"
     volumes:
       - ./:/var/www
       - ./docker/nginx:/etc/nginx/conf.d/
