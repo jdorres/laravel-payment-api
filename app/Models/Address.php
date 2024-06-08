@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class Address extends Model
 {
     use HasFactory;
 
@@ -15,15 +15,14 @@ class Client extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'document',
-        'name',
-        'email',
-        'phone',
-        'client_id'
-    ];
-    
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'client_id',
+        'country',
+        'zipcode',
+        'state',
+        'city',
+        'district',
+        'street',
+        'number',
+        'complement'
     ];
 }

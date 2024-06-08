@@ -9,13 +9,13 @@ class PaymentService
     private $clientService;
 
     public function __construct(ClientService $clientService){
-        $clientService = $clientService;
+        $this->clientService = $clientService;
     }
 
-    public function store(){
+    public function store(array $clientData){
         try{
             //TODO creates or updates client and return it's id
-            $this->clientService->createOrUpdateClient();
+            $this->clientService->createOrUpdateClient($clientData);
 
             //TODO registers payment in class Payment
 
