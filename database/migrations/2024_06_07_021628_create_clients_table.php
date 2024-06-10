@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->date('birthdate')->nullable();
             $table->string('phone', 15);
+            $table->string('gateway_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

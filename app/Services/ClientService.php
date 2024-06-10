@@ -8,9 +8,11 @@ use App\Services\AddressService;
 class ClientService{
 
     private $addressService;
+    private $asaasService;
 
-    public function __construct(AddressService $addressService){
+    public function __construct(AddressService $addressService, AsaasService $asaasService){
         $this->addressService = $addressService;
+        $this->asaasService = $asaasService;
     }
 
     public function createOrUpdateClient(array $clientData): Client{
@@ -26,12 +28,8 @@ class ClientService{
                 ]);
                 $this->addressService->store($client->id, $clientData["address"]);
             }
-
-            dd("debug 1");
-
-            $clientGatewayId = $this->createOrUpdateClientOnGateway($client);
-            $client->gatewayId = $clientGatewayId;
-            return $client;
+            $this->createOrUpdateClientOnGateway($client);
+            return $client->fresh();
         }catch(\Exception $e){
             //TODO throw exception
             dd($e->getMessage());
@@ -39,6 +37,10 @@ class ClientService{
     }
 
     public function createOrUpdateClientOnGateway(Client $client){
-        //TODO implement gateway method 
+        if(!$client->gateway_id){
+            $gatewayClient = $this->asaasService->createClient($client);
+            $client->gateway_id = $gatewayClient['id'];
+            $client->save();
+        }
     }
 }

@@ -15,7 +15,8 @@ class PaymentController extends Controller
     }
 
     public function store(Request $request){
-        $payment = $this->service->store($request->client);
+        //TODO: validate createPaymentRequest
+        $payment = $this->service->store($request->all());
         return response()->json(['payment'=>$payment], Response::HTTP_CREATED);
     }
 }

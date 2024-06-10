@@ -26,4 +26,9 @@ class Client extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
+
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
 }
