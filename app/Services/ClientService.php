@@ -38,9 +38,10 @@ class ClientService{
 
     public function createOrUpdateClientOnGateway(Client $client){
         if(!$client->gateway_id){
-            $gatewayClient = $this->asaasService->createClient($client);
-            $client->gateway_id = $gatewayClient['id'];
+            $gatewayId = $this->asaasService->createClient($client);
+            $client->gateway_id = $gatewayId;
             $client->save();
         }
+        //TODO: update client data in gateway
     }
 }

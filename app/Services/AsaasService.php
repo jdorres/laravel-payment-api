@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Client;
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class AsaasService {
@@ -15,28 +16,34 @@ class AsaasService {
     }
 
     public function createClient(Client $client){
-        $headers = $this->mountHeaders();
-        $body = [
-            "name" => $client->name,
-            "email" => $client->email,
-            "phone" => $client->phone,
-            "mobilePhone" => $client->phone,
-            "cpfCnpj" => $client->document,
-            "postalCode" => $client->address->zipcode,
-            "address" => $client->address->street,
-            "addressNumber" => $client->address->number,
-            "complement" => $client->address->complement,
-            "province" => $client->address->district,
-            "externalReference" => $client->id,
-            "notificationDisabled" => true,
-            "additionalEmails" => "",
-            "municipalInscription" => "",
-            "stateInscription" => "",
-            "observations" => ""
-        ];
+        try{
+            $headers = $this->mountHeaders();
+            $body = [
+                "name" => $client->name,
+                "email" => $client->email,
+                "phone" => $client->phone,
+                "mobilePhone" => $client->phone,
+                "cpfCnpj" => $client->document,
+                "postalCode" => $client->address->zipcode,
+                "address" => $client->address->street,
+                "addressNumber" => $client->address->number,
+                "complement" => $client->address->complement,
+                "province" => $client->address->district,
+                "externalReference" => $client->id,
+                "notificationDisabled" => true,
+                "additionalEmails" => "",
+                "municipalInscription" => "",
+                "stateInscription" => "",
+                "observations" => ""
+            ];
 
-        $client = Http::withHeaders($headers)->post($this->url.'/customers', $body);
-        return $client;
+            $response = Http::withHeaders($headers)->post($this->url.'/customers', $body);
+            $clientGatewayData = $response->json();
+            return $clientGatewayData['id'];
+        }catch(Exception $e){
+            //TODO throw exception
+            dd($e->getMessage());
+        }
     }
 
     public function mountHeaders(){

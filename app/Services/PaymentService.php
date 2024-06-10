@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Client;
+use App\Models\Payment;
 use App\Services\ClientService;
 use Illuminate\Support\Arr;
 
@@ -23,13 +24,18 @@ class PaymentService
 
             //TODO request to Asaas gateway payment creation
 
+            return $payment;
+
         }catch(\Exception $e){
             //TODO throw exception
             dd($e->getMessage());
         }
     }
 
-    public function registerPayment(Client $client, array $paymentData){
+    public function registerPayment(Client $client, array $paymentData):Payment{
         //TODO: registerPayment
+        dd($paymentData);
+        $payment = Payment::create();
+        return $payment;
     }
 }
