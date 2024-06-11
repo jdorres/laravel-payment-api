@@ -19,6 +19,7 @@ class Payment extends Model
         'amount',
         'due_date',
         'payment_date',
+        'payment_method_id',
         'status'
     ];
 

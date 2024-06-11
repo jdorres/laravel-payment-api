@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Client;
 use App\Models\Payment;
+use App\Models\PaymentMethod;
 use App\Services\ClientService;
 use Illuminate\Support\Arr;
 
@@ -34,8 +35,13 @@ class PaymentService
 
     public function registerPayment(Client $client, array $paymentData):Payment{
         //TODO: registerPayment
-        dd($paymentData);
-        $payment = Payment::create();
+        $paymentMethod = PaymentMethod::where('type', $paymentData['method'])->first();
+        $paymentData += [
+            'client_id' => $client->id,
+            'payment_method_id' => $paymentMethod->id,
+            'status' => 'pending'
+        ];
+        $payment = Payment::create($paymentData);
         return $payment;
     }
 }
